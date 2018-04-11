@@ -22,6 +22,7 @@ class ModelOffsetStore(object):
         obj.save()
 
 
+
     def seek(self, consumer, topic, partition):
         KafkaOffset = apps.get_model(app_label='logpipe', model_name='KafkaOffset')
         tp = kafka.TopicPartition(topic=topic, partition=partition)
