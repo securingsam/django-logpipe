@@ -21,7 +21,7 @@ def get_consumer_backend(topic_name, **kwargs):
     return import_string(backend_path)(topic_name, **kwargs)
 
 
-def get_producer_backend():
+def get_producer_backend(**kwargs):
     default = 'logpipe.backend.kafka.Producer'
     backend_path = settings.get('PRODUCER_BACKEND', default)
-    return import_string(backend_path)()
+    return import_string(backend_path)(**kwargs)
