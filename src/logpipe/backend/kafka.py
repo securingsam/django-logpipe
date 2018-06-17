@@ -59,7 +59,13 @@ class Consumer(object):
     def client(self):
         if not self._client:
             kwargs = self._get_client_config()
-            self._client = kafka.KafkaConsumer(self.topic_name, **kwargs)
+            self._client = kafka.KafkaConsumer(**kwargs)
+            tps = self._get_topic_partitions()
+            self._client.assign(tps)
+            backend = get_offset_backend()
+            for tp in tps:
+                backend.seek(self, tp.topic, tp.partition)
+                self._client.committed(tp)
         return self._client
 
 
